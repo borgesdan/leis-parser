@@ -122,16 +122,13 @@
         {
             node.NodeType = LeiNodeType.Parte;
 
-            if (parentNode != null && parentNode.NodeType < LeiNodeType.Parte)
+            var result = TryAddToParent(node, (x) => x.NodeType < LeiNodeType.Parte);
+
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Parte);
+                result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Parte);
                 if (result) return;
-            }
+            }            
 
             node.Parent = parentNode;
             parentNode = node;
@@ -140,24 +137,13 @@
         /// <summary>Lê um nó configurado como um título da lei.</summary>
         void ReadTitulo(LeiNode node)
         {
-            node.NodeType = LeiNodeType.Titulo;
+            node.NodeType = LeiNodeType.Titulo;            
 
-            //if (root == null)
-            //    throw new NullReferenceException();
+            var result = TryAddToParent(node, (x) => x.NodeType < LeiNodeType.Titulo);
 
-            //root.Children ??= [];
-
-            //root.Children.Add(node);
-            //parentNode = node;
-            
-            if (parentNode != null && parentNode.NodeType < LeiNodeType.Titulo)
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Titulo);
+                result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Titulo);
                 if (result) return;
             }
 
@@ -168,16 +154,13 @@
         /// <summary>Lê um nó configurado como um capítulo da lei.</summary>
         void ReadCapitulo(LeiNode node)
         {
-            node.NodeType = LeiNodeType.Capitulo;
+            node.NodeType = LeiNodeType.Capitulo;            
 
-            if (parentNode != null && parentNode.NodeType < LeiNodeType.Capitulo)
+            var result = TryAddToParent(node, (x) => x.NodeType < LeiNodeType.Capitulo);
+
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Capitulo);
+                result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Capitulo);
                 if (result) return;
             }
 
@@ -189,17 +172,15 @@
         void ReadSecao(LeiNode node)
         {
             node.NodeType = LeiNodeType.Secao;
+            
+            var result = TryAddToParent(node, (x) => x.NodeType < LeiNodeType.Secao);
 
-            if (parentNode != null && parentNode.NodeType < LeiNodeType.Secao)
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {                
-                var result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Secao);
+                result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Secao);
                 if (result) return;
             }
+
 
             node.Parent = parentNode;
             parentNode = node;
@@ -209,15 +190,12 @@
         void ReadArtigo(LeiNode node)
         {
             node.NodeType = LeiNodeType.Artigo;
-            
-            if (parentNode != null && parentNode.NodeType < LeiNodeType.Artigo)
+
+            var result = TryAddToParent(node, (x) => x.NodeType < LeiNodeType.Artigo);
+
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {                
-                var result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Artigo);
+                result = TryAddToRoot(node, (x) => x.NodeType < LeiNodeType.Artigo);
                 if (result) return;
             }
 
@@ -229,15 +207,12 @@
         void ReadParagrafo(LeiNode node)
         {
             node.NodeType = LeiNodeType.Paragrafo;
+            
+            var result = TryAddToParent(node, (x) => x.NodeType <= LeiNodeType.Artigo);
 
-            if (parentNode != null && parentNode.NodeType <= LeiNodeType.Artigo)
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);          
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Artigo);
+                result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Artigo);
                 if (result) return;
             }
 
@@ -247,16 +222,13 @@
         /// <summary>Lê um nó configurado como um inciso da lei.</summary>
         void ReadInciso(LeiNode node)
         {
-            node.NodeType = LeiNodeType.Inciso;
+            node.NodeType = LeiNodeType.Inciso;            
 
-            if (parentNode != null && parentNode.NodeType == LeiNodeType.Artigo)
+            var result = TryAddToParent(node, (x) => x.NodeType == LeiNodeType.Artigo);
+
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);           
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Artigo);
+                result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Artigo);
                 if (result) return;
             }
 
@@ -267,18 +239,15 @@
         /// <summary>Lê um nó configurado como uma alínea da lei.</summary>
         void ReadAlinea(LeiNode node)
         {
-            node.NodeType = LeiNodeType.Alinea;
+            node.NodeType = LeiNodeType.Alinea;            
 
-            if (parentNode != null && parentNode.NodeType == LeiNodeType.Inciso)
+            var result = TryAddToParent(node, (x) => x.NodeType == LeiNodeType.Inciso);
+
+            if (!result)
             {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {
-                var result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Inciso);
+                result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Inciso);
                 if (result) return;
-            }                
+            }
 
             node.Parent = parentNode;
         }
@@ -289,25 +258,23 @@
             if (parentNode != null && parentNode.NodeType <= LeiNodeType.Secao && parentNode.NodeType != LeiNodeType.Raiz)
                 node.NodeType = LeiNodeType.Tema;
             else
-                node.NodeType = LeiNodeType.Texto;
+                node.NodeType = LeiNodeType.Texto;            
 
-            if (parentNode != null && parentNode.NodeType <= LeiNodeType.Alinea)
-            {
-                parentNode.Children ??= [];
-                parentNode.Children.Add(node);
-            }
-            else
-            {
-                if (root == null)
-                    throw new NullReferenceException();
+            var result = TryAddToParent(node, (x) => x.NodeType <= LeiNodeType.Alinea);
 
-                root.Children ??= [];
-                root.Children.Add(node);
+            if (!result)
+            {
+                result = TryAddToRoot(node, (x) => x.NodeType <= LeiNodeType.Inciso);
+                if (result) return;
             }
 
             node.Parent = parentNode;
-        }        
+        }
 
+        /// <summary> 
+        /// Tenta adicionar o nó atual ao nó pai.        
+        /// Retorna true caso o nó seja adicionado ao nó pai.
+        /// </summary>
         bool TryAddToParent(LeiNode node, Func<LeiNode, bool> func)
         {
             if (parentNode != null && func(parentNode))
