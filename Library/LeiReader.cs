@@ -1,4 +1,6 @@
-﻿namespace Library
+﻿using System.Diagnostics;
+
+namespace Library
 {
     public class LeiReader(string sourceText) : IDisposable
     {
@@ -58,32 +60,26 @@
 
                 if (lowerLine.StartsWith(Token.Parte))
                 {
-                    Console.WriteLine("Parse Parte");
                     ReadParte(node);
                 }
                 else if (lowerLine.StartsWith(Token.Titulo))
                 {
-                    Console.WriteLine("Parse Título");
                     ReadTitulo(node);
                 }
                 else if (lowerLine.StartsWith(Token.Capitulo))
                 {
-                    Console.WriteLine("Parse Capítulo");
                     ReadCapitulo(node);
                 }
                 else if (lowerLine.StartsWith(Token.Secao))
                 {
-                    Console.WriteLine("Parse Seção");
                     ReadSecao(node);
                 }
                 else if (lowerLine.StartsWith(Token.Artigo))
                 {
-                    Console.WriteLine("Parse Artigo");
                     ReadArtigo(node);
                 }
                 else if (lowerLine.StartsWith(Token.Paragrafo) || lowerLine.StartsWith(Token.ParagrafoUnico))
                 {
-                    Console.WriteLine("Parse Paragráfo");
                     ReadParagrafo(node);
                 }
                 else
@@ -96,22 +92,18 @@
                         || zero.StartsWith('V')
                         || zero.StartsWith('X')))
                     {
-                        Console.WriteLine("Parse Inciso");
                         ReadInciso(node);
                     }
                     else if (zero.Contains("gif"))
                     {
-                        Console.WriteLine("Parse imagem");
                         ReadTexto(node);
                     }
                     else if(zero.Length >= 2 && zero[1] == ')')
                     {
-                        Console.WriteLine("Parse alínea");
                         ReadAlinea(node);
                     }
                     else
-                    {
-                        Console.WriteLine("Parse Texto");
+                    {                        
                         ReadTexto(node);
                     }
                 }
