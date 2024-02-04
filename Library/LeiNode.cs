@@ -51,27 +51,6 @@ namespace Library
             }
 
             return null;
-        }        
-
-        public override string ToString()
-        {
-            StringBuilder builder = new StringBuilder();
-
-            var t = new string('\t', tabCount);
-
-            builder.AppendLine(t + Line);
-
-            if (Children != null && Children.Count != 0)
-            {
-                ++tabCount;
-                foreach (var child in Children)
-                {
-                    builder.AppendLine(child.ToString());
-                }
-                --tabCount;
-            }
-
-            return builder.ToString();
-        }
+        }               
     }
 }

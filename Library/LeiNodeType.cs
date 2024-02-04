@@ -3,6 +3,7 @@
     public enum LeiNodeType
     {
         Raiz,
+        Parte,
         Titulo,
         Capitulo,
         Secao,
