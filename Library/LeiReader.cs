@@ -51,6 +51,11 @@ namespace Library
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
+                var firstChar = line[0];
+                
+                if(!(char.IsLetter(firstChar) || char.IsDigit(firstChar)))
+                    continue;
+
                 var lowerLine = line.ToLower();
 
                 var node = new LeiNode
